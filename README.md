@@ -7,7 +7,7 @@
 ## ✨ Fitur Utama
 
 ### 🤖 **AI-Powered Chat**
-- **Multiple AI Models**: Gemini 2.5 Flash, Gemini 1.5 Pro, Gemini 1.5 Flash
+- **Multiple AI Models**: Gemini 2.5 Flash, Gemini 2.5 Pro
 - **Contextual Conversations**: AI mengingat percakapan sebelumnya
 - **Indonesian Focus**: Khusus dilatih untuk topik Indonesia
 - **Real-time Responses**: Respons cepat dan akurat
@@ -179,8 +179,7 @@ RATE_LIMIT_MAX_REQUESTS=10
 
 ### AI Models
 - **gemini-2.5-flash**: Fastest response, good for quick questions
-- **gemini-1.5-pro**: Most accurate, best for complex topics
-- **gemini-1.5-flash**: Balanced speed and accuracy
+- **gemini-2.5-pro**: Most accurate, best for complex topics and reasoning
 
 ## 📱 Responsive Breakpoints
 

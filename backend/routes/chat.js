@@ -134,8 +134,7 @@ function extractResponseText(resp) {
 function validateSelectedModel(model) {
   const validModels = [
     "gemini-2.5-flash",
-    "gemini-1.5-pro", 
-    "gemini-1.5-flash"
+    "gemini-2.5-pro"
   ];
   
   return validModels.includes(model) ? model : GEMINI_MODEL;
