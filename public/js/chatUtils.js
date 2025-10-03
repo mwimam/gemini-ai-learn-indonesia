@@ -10,13 +10,6 @@ class ChatUtils {
     this.endConversationButton = document.querySelector('#clear-chat-btn');
     this.isProcessing = false;
     
-    // Debug log untuk memastikan elements ditemukan
-    console.log('ChatUtils initialized with:', {
-      chatBox: !!this.chatBox,
-      inputElement: !!this.inputElement,
-      submitButton: !!this.submitButton,
-      submitButtonSelector: sendButtonSelector
-    });
     
     // Initialize chat storage
     this.storage = new ChatStorage();
@@ -110,7 +103,6 @@ class ChatUtils {
    */
   loadChatHistory() {
     if (!this.storage.isLocalStorageSupported()) {
-      console.warn('localStorage not supported, chat history will not persist');
       return;
     }
 
@@ -190,25 +182,19 @@ class ChatUtils {
    */
   disableInput() {
     this.isProcessing = true;
-    console.log('Disabling input and submit button'); // Debug log
 
     if (this.inputElement) {
       this.inputElement.disabled = true;
       this.inputElement.placeholder = "Bot sedang mengetik...";
-      console.log('Input disabled:', this.inputElement.disabled); // Debug log
     }
 
     if (this.submitButton) {
       this.submitButton.disabled = true;
       this.submitButton.textContent = "Menunggu...";
-      console.log('Submit button disabled:', this.submitButton.disabled); // Debug log
-    } else {
-      console.warn('Submit button not found!'); // Debug warning
     }
 
     if (this.endConversationButton) {
       this.endConversationButton.disabled = true;
-      console.log('End conversation button disabled:', this.endConversationButton.disabled); // Debug log
     }
   }
 
@@ -217,26 +203,20 @@ class ChatUtils {
    */
   enableInput() {
     this.isProcessing = false;
-    console.log('Enabling input and submit button'); // Debug log
 
     if (this.inputElement) {
       this.inputElement.disabled = false;
       this.inputElement.placeholder = "Ketik pesanmu di sini...";
       this.inputElement.focus(); // Auto focus untuk UX yang lebih baik
-      console.log('Input enabled:', !this.inputElement.disabled); // Debug log
     }
 
     if (this.submitButton) {
       this.submitButton.disabled = false;
       this.submitButton.textContent = "Kirim";
-      console.log('Submit button enabled:', !this.submitButton.disabled); // Debug log
-    } else {
-      console.warn('Submit button not found!'); // Debug warning
     }
 
     if (this.endConversationButton) {
       this.endConversationButton.disabled = false;
-      console.log('End conversation button enabled:', !this.endConversationButton.disabled); // Debug log
     }
   }
 

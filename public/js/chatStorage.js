@@ -50,7 +50,6 @@ class ChatStorage {
 
       return data.messages || [];
     } catch (error) {
-      console.error("Error reading chat history:", error);
       return [];
     }
   }
@@ -72,7 +71,6 @@ class ChatStorage {
 
       localStorage.setItem(this.storageKey, JSON.stringify(data));
     } catch (error) {
-      console.error("Error saving chat history:", error);
       // Handle storage quota exceeded
       if (error.name === "QuotaExceededError") {
         this.clearOldMessages();
@@ -118,7 +116,7 @@ class ChatStorage {
     try {
       localStorage.removeItem(this.storageKey);
     } catch (error) {
-      console.error("Error clearing chat history:", error);
+      // Silent fail
     }
   }
 
@@ -200,7 +198,6 @@ class ChatStorage {
       }
       return false;
     } catch (error) {
-      console.error("Error importing chat history:", error);
       return false;
     }
   }

@@ -46,7 +46,6 @@ function initializeApp() {
   // Event handler untuk form submit
   chatForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    console.log("Form submitted!"); // Debug log
     const userMessage = userInput.value.trim();
 
     // Cek apakah input sedang disabled (bot sedang memproses)
@@ -165,23 +164,11 @@ function initializeApp() {
 
   // End conversation button event listener
   clearChatBtn.addEventListener("click", () => {
-    console.log('End conversation button clicked!'); // Debug log
     if (confirm("Apakah Anda yakin ingin mengakhiri percakapan ini? Semua riwayat chat akan dihapus.")) {
       chatUtils.clearChatHistory();
       chatUtils.addMessage("👋 Percakapan telah diakhiri. Terima kasih sudah mengobrol dengan Sahabat Nusantara!", "bot", "model-notification");
     }
   });
 
-  // Test button functionality
-  submitButton.addEventListener("click", (e) => {
-  });
-
   // Initialization complete
-  console.log("Chat application initialized successfully");
-  console.log("Event listeners attached:", {
-    chatForm: !!chatForm,
-    userInput: !!userInput,
-    modelSelect: !!modelSelect,
-    clearChatBtn: !!clearChatBtn,
-  });
 }
