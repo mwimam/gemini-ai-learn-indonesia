@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sahabat Nusantara 🇮🇩</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h2>Ngobrol dengan Sahabat Nusantara</h2>
+        <div class="model-selector">
+          <label for="model-select">Model AI:</label>
+          <select id="model-select">
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (Cepat)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Akurat)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Seimbang)</option>
+          </select>
+        </div>
+      </div>
+      <div class="chat-box" id="chat-box">
+        <div class="message bot">
+          <p>
+            Halo! Aku Sahabat Nusantara. Yuk, tanya apa saja tentang Indonesia
+            kepadaku!
+          </p>
+        </div>
+      </div>
+      <form class="chat-input-form" id="chat-form">
+        <input
+          type="text"
+          id="user-input"
+          placeholder="Ketik pesanmu di sini..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Kirim</button>
+      </form>
+    </div>
+
+    <!-- Load utilities first -->
+    <script src="js/security.js"></script>
+    <script src="js/rateLimit.js"></script>
+    <script src="js/chatUtils.js"></script>
+    <script src="js/apiClient.js"></script>
+    
+    <!-- Load main application script last -->
+    <script src="script.js"></script>
+  </body>
+</html>
