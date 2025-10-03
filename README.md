@@ -318,7 +318,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/gemini-ai-learn-indonesia/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/gemini-ai-learn-indonesia/discussions)
-- **Email**: support@sahabatnusantara.com
+- **Email**: imamsyafiisatu@gmail.com
 
 ## 🗺️ Roadmap
 
