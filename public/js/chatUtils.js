@@ -7,13 +7,12 @@ class ChatUtils {
     this.chatBox = document.querySelector(chatBoxSelector);
     this.inputElement = document.querySelector(inputSelector);
     this.submitButton = document.querySelector(sendButtonSelector);
-    this.endConversationButton = document.querySelector('#clear-chat-btn');
+    this.endConversationButton = document.querySelector("#clear-chat-btn");
     this.isProcessing = false;
-    
-    
+
     // Initialize chat storage
     this.storage = new ChatStorage();
-    
+
     // Load existing chat history on initialization
     this.loadChatHistory();
   }
@@ -46,8 +45,8 @@ class ChatUtils {
     this.scrollToBottom();
 
     // Save to localStorage (skip loading messages and notifications)
-    if (type !== 'loading' && type !== 'model-notification') {
-      this.storage.addMessage(text, sender, type || 'normal');
+    if (type !== "loading" && type !== "model-notification") {
+      this.storage.addMessage(text, sender, type || "normal");
     }
 
     return messageElement;
@@ -61,22 +60,30 @@ class ChatUtils {
   formatBotMessage(text) {
     // Step 1: Handle bold text first (double asterisk)
     let formatted = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-    
+
     // Step 2: Handle italic text (single asterisk) - avoid conflicts with bold
     // Use placeholder to avoid conflicts
-    formatted = formatted.replace(/<strong>(.*?)<\/strong>/g, "BOLD_PLACEHOLDER_$1_BOLD_PLACEHOLDER");
+    formatted = formatted.replace(
+      /<strong>(.*?)<\/strong>/g,
+      "BOLD_PLACEHOLDER_$1_BOLD_PLACEHOLDER"
+    );
     formatted = formatted.replace(/\*([^*\n]+?)\*/g, "<em>$1</em>");
-    formatted = formatted.replace(/BOLD_PLACEHOLDER_(.*?)_BOLD_PLACEHOLDER/g, "<strong>$1</strong>");
-    
+    formatted = formatted.replace(
+      /BOLD_PLACEHOLDER_(.*?)_BOLD_PLACEHOLDER/g,
+      "<strong>$1</strong>"
+    );
+
     // Step 3: Handle other formatting
-    return formatted
-      // Hapus numbering (1. 2. 3. dll) di awal baris
-      .replace(/^\d+\.\s+/gm, "") 
-      // Bullet points dengan * di awal baris
-      .replace(/^• /gm, "• ") // Preserve existing bullets
-      .replace(/^\* /gm, "• ") // Convert * bullets to •
-      // Line breaks
-      .replace(/\n/g, "<br>");
+    return (
+      formatted
+        // Hapus numbering (1. 2. 3. dll) di awal baris
+        .replace(/^\d+\.\s+/gm, "")
+        // Bullet points dengan * di awal baris
+        .replace(/^• /gm, "• ") // Preserve existing bullets
+        .replace(/^\* /gm, "• ") // Convert * bullets to •
+        // Line breaks
+        .replace(/\n/g, "<br>")
+    );
   }
 
   /**
@@ -107,7 +114,7 @@ class ChatUtils {
     }
 
     const messages = this.storage.getChatHistory();
-    
+
     if (messages.length === 0) {
       // Show welcome message for new users
       this.addWelcomeMessage();
@@ -115,10 +122,10 @@ class ChatUtils {
     }
 
     // Clear current chat box
-    this.chatBox.innerHTML = '';
+    this.chatBox.innerHTML = "";
 
     // Load messages from storage
-    messages.forEach(msg => {
+    messages.forEach((msg) => {
       this.displayStoredMessage(msg);
     });
 
@@ -133,7 +140,7 @@ class ChatUtils {
     const messageElement = document.createElement("div");
     messageElement.classList.add("message", message.sender);
 
-    if (message.type && message.type !== 'normal') {
+    if (message.type && message.type !== "normal") {
       messageElement.classList.add(message.type);
     }
 
@@ -154,9 +161,10 @@ class ChatUtils {
    */
   addWelcomeMessage() {
     this.displayStoredMessage({
-      content: "Halo! Aku Sahabat Nusantara. Yuk, tanya apa saja tentang Indonesia kepadaku!",
+      content:
+        "Halo! Aku Sahabat Nusantara. Yuk, tanya apa saja tentang Indonesia kepadaku!",
       sender: "bot",
-      type: "normal"
+      type: "normal",
     });
   }
 
@@ -165,16 +173,30 @@ class ChatUtils {
    */
   clearChatHistory() {
     this.storage.clearChatHistory();
-    this.chatBox.innerHTML = '';
-    this.addWelcomeMessage();
   }
 
   /**
    * Get storage info untuk debugging
-   * @returns {Object} - Storage information
+   * @returns {object} - Storage information
    */
   getStorageInfo() {
     return this.storage.getStorageInfo();
+  }
+
+  /**
+   * Test typing animation (untuk debugging)
+   */
+  testTypingAnimation() {
+    const loadingMsg = this.addLoadingMessage("Testing animasi", () => {
+      this.removeLoadingMessage(loadingMsg);
+    });
+
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+      this.removeLoadingMessage(loadingMsg);
+    }, 3000);
+
+    return loadingMsg;
   }
 
   /**
@@ -239,20 +261,21 @@ class ChatUtils {
     messageElement.classList.add("message", "bot", "loading");
 
     const p = document.createElement("p");
-    
+
     // Create message content with typing dots
     const messageContent = document.createElement("span");
+    messageContent.className = "typing-indicator";
     messageContent.innerHTML = `${message}<span class="typing-dots"><span></span><span></span><span></span></span>`;
-    
+
     p.appendChild(messageContent);
-    
+
     // Add cancel button if callback provided
-    if (onCancel && typeof onCancel === 'function') {
+    if (onCancel && typeof onCancel === "function") {
       const cancelButton = document.createElement("button");
       cancelButton.className = "cancel-btn";
       cancelButton.innerHTML = "×";
       cancelButton.title = "Batalkan";
-      cancelButton.setAttribute('aria-label', 'Batalkan request');
+      cancelButton.setAttribute("aria-label", "Batalkan request");
       cancelButton.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -264,7 +287,7 @@ class ChatUtils {
     messageElement.appendChild(p);
     this.chatBox.appendChild(messageElement);
     this.scrollToBottom();
-    
+
     this.disableInput(); // Disable input saat loading
     this.scrollToBottomDelayed(); // Scroll dengan delay untuk loading
     return messageElement;

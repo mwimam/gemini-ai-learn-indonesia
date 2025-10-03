@@ -9,6 +9,7 @@ require("dotenv").config();
 // Core dependencies
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 // Import custom modules
 const { config, validateConfig } = require("./config/app");
@@ -34,27 +35,45 @@ const app = express();
 app.use(securityHeadersMiddleware);
 app.use(cors(config.cors));
 app.use(express.json({ limit: "1mb" }));
-app.use(express.static("public"));
 
-// Routes
-app.get("/health", handleHealthCheck);
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, "../public")));
+
+// API Routes
+app.get("/api/health", handleHealthCheck);
 app.post(
-  "/chat",
+  "/api/chat",
   rateLimitMiddleware,
   validateMessageMiddleware,
   handleChatRequest
 );
-app.post("/clear-conversation", handleClearConversation);
+app.post("/api/clear-conversation", handleClearConversation);
+
+// Serve index.html for root path
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
+// Fallback middleware for SPA routing
+app.use((req, res, next) => {
+  // If it's an API route, let it go to 404
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ error: "API endpoint not found" });
+  }
+  
+  // If it's not a static file (doesn't have extension), serve index.html
+  if (!req.path.includes(".")) {
+    return res.sendFile(path.join(__dirname, "../public/index.html"));
+  }
+  
+  // Let static files be handled by express.static
+  next();
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).json({ error: "Internal server error" });
-});
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: "Endpoint not found" });
 });
 
 // Start server

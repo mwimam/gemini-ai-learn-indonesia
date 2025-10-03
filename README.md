@@ -7,24 +7,28 @@
 ## ✨ Fitur Utama
 
 ### 🤖 **AI-Powered Chat**
+
 - **Multiple AI Models**: Gemini 2.5 Flash, Gemini 2.5 Pro
 - **Contextual Conversations**: AI mengingat percakapan sebelumnya
 - **Indonesian Focus**: Khusus dilatih untuk topik Indonesia
 - **Real-time Responses**: Respons cepat dan akurat
 
 ### 💾 **Persistent Chat History**
+
 - **LocalStorage**: Riwayat chat tersimpan di browser
 - **6 Hour TTL**: Data otomatis expire setelah 6 jam
 - **Cross-session**: Chat history tetap ada setelah refresh
 - **Memory Management**: Automatic cleanup dan size limiting
 
 ### 🎨 **Modern UI/UX**
+
 - **Responsive Design**: Optimal di semua device (320px - desktop)
 - **Material Design**: Interface yang clean dan modern
 - **Dark/Light Mode**: Automatic theme detection (currently light-only)
 - **Smooth Animations**: Transisi yang halus dan natural
 
 ### 🔒 **Security & Performance**
+
 - **Input Validation**: Sanitasi dan validasi input pengguna
 - **Rate Limiting**: Perlindungan dari spam dan abuse
 - **XSS Protection**: Security headers dan input sanitization
@@ -33,6 +37,7 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js (v16 atau lebih baru)
 - NPM atau Yarn
 - Google Gemini API Key
@@ -40,31 +45,40 @@
 ### Installation
 
 1. **Clone Repository**
+
    ```bash
-   git clone https://github.com/yourusername/gemini-ai-learn-indonesia.git
-   cd gemini-ai-learn-indonesia
+   git clone https://github.com/yourusername/sahabat-nusantara.git
+   cd sahabat-nusantara
    ```
 
 2. **Install Dependencies**
+
    ```bash
-   cd backend
-   npm install
+   npm run install-deps
    ```
 
 3. **Environment Setup**
+
    ```bash
+   cd backend
    cp .env.example .env
    ```
-   
-   Edit `.env` file:
+
+   Edit `backend/.env` file:
+
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
    PORT=3000
    NODE_ENV=development
    ```
 
-4. **Start Development Server**
+4. **Start Application**
+
    ```bash
+   # Development mode (with auto-reload)
+   npm run dev
+
+   # Production mode
    npm start
    ```
 
@@ -107,6 +121,7 @@ gemini-ai-learn-indonesia/
 ## 🛠️ Technology Stack
 
 ### Backend
+
 - **Node.js**: Runtime environment
 - **Express.js**: Web framework
 - **Google Gemini AI**: AI language model
@@ -114,12 +129,14 @@ gemini-ai-learn-indonesia/
 - **dotenv**: Environment variable management
 
 ### Frontend
+
 - **Vanilla JavaScript**: No framework dependencies
 - **CSS3**: Modern styling with flexbox/grid
 - **HTML5**: Semantic markup
 - **PWA**: Progressive Web App features
 
 ### Features
+
 - **Responsive Design**: Mobile-first approach
 - **LocalStorage**: Client-side data persistence
 - **Rate Limiting**: Both client and server-side
@@ -127,8 +144,10 @@ gemini-ai-learn-indonesia/
 
 ## 🎯 API Endpoints
 
-### `GET /health`
+### `GET /api/health`
+
 Health check endpoint
+
 ```json
 {
   "status": "OK",
@@ -137,8 +156,10 @@ Health check endpoint
 }
 ```
 
-### `POST /chat`
+### `POST /api/chat`
+
 Send message to AI
+
 ```json
 {
   "message": "Apa itu Borobudur?",
@@ -147,6 +168,7 @@ Send message to AI
 ```
 
 Response:
+
 ```json
 {
   "success": true,
@@ -154,8 +176,10 @@ Response:
 }
 ```
 
-### `POST /clear-conversation`
+### `POST /api/clear-conversation`
+
 Clear conversation history
+
 ```json
 {
   "success": true,
@@ -166,6 +190,7 @@ Clear conversation history
 ## 🔧 Configuration
 
 ### Environment Variables
+
 ```env
 # Required
 GEMINI_API_KEY=your_api_key_here
@@ -178,6 +203,7 @@ RATE_LIMIT_MAX_REQUESTS=10
 ```
 
 ### AI Models
+
 - **gemini-2.5-flash**: Fastest response, good for quick questions
 - **gemini-2.5-pro**: Most accurate, best for complex topics and reasoning
 
@@ -194,17 +220,20 @@ RATE_LIMIT_MAX_REQUESTS=10
 ## 🔒 Security Features
 
 ### Input Validation
+
 - XSS protection
 - HTML sanitization
 - Message length limiting
 - Pattern detection for malicious content
 
 ### Rate Limiting
+
 - Server-side: 10 requests per minute per IP
 - Client-side: 5 requests per minute per session
 - Automatic cooldown periods
 
 ### CORS Configuration
+
 - Restricted origins in production
 - Secure headers implementation
 - Content Security Policy
@@ -212,23 +241,29 @@ RATE_LIMIT_MAX_REQUESTS=10
 ## 🎨 Customization
 
 ### Themes
+
 Currently supports light theme only. Dark mode is commented out but can be enabled by uncommenting the dark mode CSS in `style-new.css`.
 
 ### Colors
+
 Main brand colors:
+
 - Primary: `#d9534f` (Red)
 - Secondary: `#6c757d` (Gray)
 - Success: `#28a745` (Green)
 - Info: `#007bff` (Blue)
 
 ### Fonts
+
 - Primary: Segoe UI, Tahoma, Geneva, Verdana, sans-serif
 - Fallback: System fonts
 
 ## 🚀 Deployment
 
 ### Production Build
+
 1. Set environment to production:
+
    ```env
    NODE_ENV=production
    ```
@@ -242,6 +277,7 @@ Main brand colors:
    - **VPS**: PM2 or Docker deployment
 
 ### Docker Deployment
+
 ```dockerfile
 FROM node:16-alpine
 WORKDIR /app
@@ -262,6 +298,7 @@ CMD ["npm", "start"]
 5. Open Pull Request
 
 ### Development Guidelines
+
 - Follow ESLint configuration
 - Write meaningful commit messages
 - Add tests for new features
@@ -286,6 +323,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🗺️ Roadmap
 
 ### v2.0 (Planned)
+
 - [ ] User authentication
 - [ ] Chat export/import
 - [ ] Voice input/output
@@ -294,6 +332,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Chat sharing features
 
 ### v1.1 (Current)
+
 - [x] Responsive design
 - [x] LocalStorage persistence
 - [x] Multiple AI models
@@ -304,4 +343,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for Indonesia** 🇮🇩
 
-*Sahabat Nusantara - Your AI companion to explore the beauty of Indonesia*
+_Sahabat Nusantara - Your AI companion to explore the beauty of Indonesia_

@@ -29,7 +29,7 @@ class ApiClient {
         payload.model = model;
       }
 
-      const response = await fetch(`${this.baseUrl}/chat`, {
+      const response = await fetch(`${this.baseUrl}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

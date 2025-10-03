@@ -31,7 +31,7 @@ function initializeApp() {
   }
 
   // Initialize utilities
-  const BACKEND_URL = "http://localhost:3000";
+  const BACKEND_URL = window.location.origin;
   const apiClient = new ApiClient(BACKEND_URL);
   const chatUtils = new ChatUtils(
     "#chat-box",

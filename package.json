@@ -1,0 +1,31 @@
+{
+  "name": "sahabat-nusantara",
+  "version": "1.0.0",
+  "description": "AI Chat Assistant untuk belajar tentang Indonesia",
+  "main": "start.js",
+  "scripts": {
+    "start": "node start.js",
+    "dev": "cd backend && npm run dev",
+    "install-deps": "cd backend && npm install",
+    "build": "echo 'No build step required for static files'",
+    "test": "cd backend && npm test"
+  },
+  "keywords": [
+    "ai",
+    "chat",
+    "indonesia",
+    "gemini",
+    "nusantara",
+    "education"
+  ],
+  "author": "Sahabat Nusantara Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/sahabat-nusantara.git"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
