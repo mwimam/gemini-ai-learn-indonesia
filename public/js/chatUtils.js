@@ -3,35 +3,47 @@
  */
 
 class ChatUtils {
-  constructor(chatBoxElement, inputElement = null, submitButton = null) {
-    this.chatBox = chatBoxElement;
-    this.inputElement = inputElement;
-    this.submitButton = submitButton;
+  constructor(chatBoxSelector, inputSelector, sendButtonSelector) {
+    this.chatBox = document.querySelector(chatBoxSelector);
+    this.inputElement = document.querySelector(inputSelector);
+    this.submitButton = document.querySelector(sendButtonSelector);
+    this.endConversationButton = document.querySelector('#clear-chat-btn');
     this.isProcessing = false;
+    
+    // Debug log untuk memastikan elements ditemukan
+    console.log('ChatUtils initialized with:', {
+      chatBox: !!this.chatBox,
+      inputElement: !!this.inputElement,
+      submitButton: !!this.submitButton,
+      submitButtonSelector: sendButtonSelector
+    });
+    
+    // Initialize chat storage
+    this.storage = new ChatStorage();
+    
+    // Load existing chat history on initialization
+    this.loadChatHistory();
   }
 
   /**
    * Tambah pesan ke chat box
    * @param {string} text - Teks pesan
    * @param {string} sender - 'user' atau 'bot'
-   * @param {string} type - Optional type untuk styling khusus
    * @returns {HTMLElement} - Element pesan yang dibuat
    */
   addMessage(text, sender, type = null) {
     const messageElement = document.createElement("div");
     messageElement.classList.add("message", sender);
-    
-    // Add special class for model notifications
-    if (type === "model-notification" || (sender === "bot" && text.includes("🤖"))) {
-      messageElement.classList.add("model-notification");
+
+    if (type) {
+      messageElement.classList.add(type);
     }
 
     const p = document.createElement("p");
 
-    // Format pesan bot untuk menampilkan bullet points dengan baik
     if (sender === "bot") {
-      const formattedText = this.formatBotMessage(text);
-      p.innerHTML = formattedText;
+      // Format bot messages dengan markdown-like formatting
+      p.innerHTML = this.formatBotMessage(text);
     } else {
       p.textContent = text;
     }
@@ -39,6 +51,11 @@ class ChatUtils {
     messageElement.appendChild(p);
     this.chatBox.appendChild(messageElement);
     this.scrollToBottom();
+
+    // Save to localStorage (skip loading messages and notifications)
+    if (type !== 'loading' && type !== 'model-notification') {
+      this.storage.addMessage(text, sender, type || 'normal');
+    }
 
     return messageElement;
   }
@@ -89,19 +106,109 @@ class ChatUtils {
   }
 
   /**
+   * Load chat history dari localStorage
+   */
+  loadChatHistory() {
+    if (!this.storage.isLocalStorageSupported()) {
+      console.warn('localStorage not supported, chat history will not persist');
+      return;
+    }
+
+    const messages = this.storage.getChatHistory();
+    
+    if (messages.length === 0) {
+      // Show welcome message for new users
+      this.addWelcomeMessage();
+      return;
+    }
+
+    // Clear current chat box
+    this.chatBox.innerHTML = '';
+
+    // Load messages from storage
+    messages.forEach(msg => {
+      this.displayStoredMessage(msg);
+    });
+
+    this.scrollToBottom();
+  }
+
+  /**
+   * Display message dari storage tanpa menyimpan lagi
+   * @param {Object} message - Message object dari storage
+   */
+  displayStoredMessage(message) {
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", message.sender);
+
+    if (message.type && message.type !== 'normal') {
+      messageElement.classList.add(message.type);
+    }
+
+    const p = document.createElement("p");
+
+    if (message.sender === "bot") {
+      p.innerHTML = this.formatBotMessage(message.content);
+    } else {
+      p.textContent = message.content;
+    }
+
+    messageElement.appendChild(p);
+    this.chatBox.appendChild(messageElement);
+  }
+
+  /**
+   * Add welcome message untuk user baru
+   */
+  addWelcomeMessage() {
+    this.displayStoredMessage({
+      content: "Halo! Aku Sahabat Nusantara. Yuk, tanya apa saja tentang Indonesia kepadaku!",
+      sender: "bot",
+      type: "normal"
+    });
+  }
+
+  /**
+   * Clear chat history
+   */
+  clearChatHistory() {
+    this.storage.clearChatHistory();
+    this.chatBox.innerHTML = '';
+    this.addWelcomeMessage();
+  }
+
+  /**
+   * Get storage info untuk debugging
+   * @returns {Object} - Storage information
+   */
+  getStorageInfo() {
+    return this.storage.getStorageInfo();
+  }
+
+  /**
    * Disable input saat bot sedang memproses
    */
   disableInput() {
     this.isProcessing = true;
+    console.log('Disabling input and submit button'); // Debug log
 
     if (this.inputElement) {
       this.inputElement.disabled = true;
       this.inputElement.placeholder = "Bot sedang mengetik...";
+      console.log('Input disabled:', this.inputElement.disabled); // Debug log
     }
 
     if (this.submitButton) {
       this.submitButton.disabled = true;
       this.submitButton.textContent = "Menunggu...";
+      console.log('Submit button disabled:', this.submitButton.disabled); // Debug log
+    } else {
+      console.warn('Submit button not found!'); // Debug warning
+    }
+
+    if (this.endConversationButton) {
+      this.endConversationButton.disabled = true;
+      console.log('End conversation button disabled:', this.endConversationButton.disabled); // Debug log
     }
   }
 
@@ -110,16 +217,26 @@ class ChatUtils {
    */
   enableInput() {
     this.isProcessing = false;
+    console.log('Enabling input and submit button'); // Debug log
 
     if (this.inputElement) {
       this.inputElement.disabled = false;
       this.inputElement.placeholder = "Ketik pesanmu di sini...";
       this.inputElement.focus(); // Auto focus untuk UX yang lebih baik
+      console.log('Input enabled:', !this.inputElement.disabled); // Debug log
     }
 
     if (this.submitButton) {
       this.submitButton.disabled = false;
       this.submitButton.textContent = "Kirim";
+      console.log('Submit button enabled:', !this.submitButton.disabled); // Debug log
+    } else {
+      console.warn('Submit button not found!'); // Debug warning
+    }
+
+    if (this.endConversationButton) {
+      this.endConversationButton.disabled = false;
+      console.log('End conversation button enabled:', !this.endConversationButton.disabled); // Debug log
     }
   }
 
